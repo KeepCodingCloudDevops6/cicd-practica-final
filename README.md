@@ -32,5 +32,4 @@ Los requerimentos que nos ha dado ACME son los siguientes:
 - Job DSL que correrá Jenkins para crear el job periódico de chequeo de almacenamiento
 - README donde se especificará que versión de instancia de Jenkins se ha utilizado así como los plugins, secretos y configuraciones necesarias
 - Jenkinsfile del job de chequeo de almacenamiento
-- Fichero `yaml` con el pipeline de Github Actions para el despliegue de la unidad de almacenamiento
 - README general explicando el proyecto y las decisiones de diseño tomadas. Explicar el porqué de las mismas, sus beneficios y sus inconvenientes
