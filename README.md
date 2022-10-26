@@ -10,12 +10,12 @@ En este caso, la empresa ACME quiere empezar a probar la nube, por lo que vamos 
 
 Los requerimentos que nos ha dado ACME son los siguientes:
 
-- Quieren dos unidades de almacenamiento, pues tienen dos entornos: dev y prod. Por lo tanto estas unidades se llamarán respectivamente `acme-storage-dev` y `acme-storage-prod`
-- Quieren que el flujo de despliegue para el entorno de DEV sea totalmente automático, sin intervención manual
-- Sin embargo, en el flujo de despliegue de PROD hará falta que un administrador apruebe el despliegue
-- Los desarrolladores de ACME han de poder hacer el despliegue desde sus máquinas para el entorno de DEV
+- Quieren una unidad almacenamiento que se llamará `acme-storage`, será un bucket S3 de AWS
+- Quieren que el flujo de despliegue sea "Continuous Delivery" en la rama `main`, es decir, un administrador validará el comando de puesta en producción de la infraestructura
+- Sin embargo, en otras ramas distintas de `main`, el despliegue será "Continuous Deployment" y no habrá aprobación manual, será totalmente automático
+- Los desarrolladores de ACME han de poder hacer el despliegue también desde sus máquinas
 - Quieren que las credenciales para desplegar nunca estén guardadas en el código
-- Además ACME también quiere revisar cada 10 minutos que el contenido que hay en cada una de las unidades de almacenamiento no supera los 20MiB. Si esto pasa, se vaciarán las unidades de almacenamiento de manera automatizada
+- Además ACME también quiere revisar cada 10 minutos que el contenido que hay en la unidad de almacenamiento no supera los 20MiB. Si esto pasa, se vaciará de manera automatizada
 - ACME lleva usando Jenkins mucho tiempo pero está actualmente abriéndose a probar nuevas teconologías con menor coste de gestión como Github Actions. Es por esto que también se requiere un pipeline de Github actions para el despliegue de la unidad de almacenamiento, de modo que ACME pueda comparar ambas tecnologías
 
 ### Entregables
@@ -24,13 +24,13 @@ Los requerimentos que nos ha dado ACME son los siguientes:
 
 - Proyecto terraform para la creación de la unidad de almacenamiento
 - Makefile que usaran los desarrolladores para despliegue en local. README con instrucciones para desarrolladores
-- Dockerfile del agente que se usará para correr los jobs en Jenkins
+- Dockerfile del agente que se usará para correr los jobs en Jenkins. Puede heredar del agente base que tenemos del curso.
 - Job DSL que correrá Jenkins para crear el job de despliegue
-- Jenkinsfile del job de despliegue. El mismo job desplegará en DEV y en PROD si se cumplen ciertas condiciones
-- Fichero `yaml` con el pipeline de Github Actions para el despliegue
-- Script para rellenar uno de los buckets con datos dummy, que se usará para testear el job de chequeo de almacenamiento
-- Job DSL que correrá Jenkins para crear el job de chequeo de almacenamiento
+- Jenkinsfile del job de despliegue
+- Fichero `yaml` con el pipeline de Github Actions para el despliegue ([OPCIONAL] Aprobación manual del pipeline)
+- [OPCIONAL] Script para rellenar uno de los buckets con datos dummy, que se usará para testear el job de chequeo de almacenamiento. Para esto se puede usar bash o python
+- Job DSL que correrá Jenkins para crear el job periódico de chequeo de almacenamiento
 - README donde se especificará que versión de instancia de Jenkins se ha utilizado así como los plugins, secretos y configuraciones necesarias
 - Jenkinsfile del job de chequeo de almacenamiento
-- Fichero `yaml` con el pipeline de Github Actions para el chequeo de almacenamiento
+- Fichero `yaml` con el pipeline de Github Actions para el despliegue de la unidad de almacenamiento
 - README general explicando el proyecto y las decisiones de diseño tomadas. Explicar el porqué de las mismas, sus beneficios y sus inconvenientes
